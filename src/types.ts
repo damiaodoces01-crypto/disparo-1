@@ -71,3 +71,11 @@ export interface DispatchLog {
     whatsappLink?: string; // If WhatsApp click to share was generated
   }[];
 }
+
+export interface PricingRules {
+  baseFee: number;
+  ratePerKm: number;
+  minFee: number;
+  enabled: boolean;
+}
+

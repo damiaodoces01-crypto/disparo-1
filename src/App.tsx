@@ -5,11 +5,13 @@ import {
   MessageTemplate,
   DispatchLog,
   GroupType,
+  PricingRules,
 } from "./types";
 import { DEFAULT_CHANNELS, DEFAULT_TEMPLATES } from "./data";
 import FormCorrida from "./components/FormCorrida";
 import TemplateManager from "./components/TemplateManager";
 import ConfigCanais from "./components/ConfigCanais";
+import ConfigTarifas from "./components/ConfigTarifas";
 import {
   Send,
   History,
@@ -57,6 +59,13 @@ export default function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [pricingRules, setPricingRules] = useState<PricingRules>(() => {
+    const saved = localStorage.getItem("logi_pricing_rules");
+    return saved
+      ? JSON.parse(saved)
+      : { baseFee: 8.00, ratePerKm: 2.50, minFee: 12.00, enabled: true };
+  });
+
   // UI state
   const [activeTab, setActiveTab] = useState<"disparo" | "configuracao">("disparo");
   const [isDispatching, setIsDispatching] = useState(false);
@@ -90,6 +99,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("logi_dispatch_logs", JSON.stringify(logs));
   }, [logs]);
+
+  useEffect(() => {
+    localStorage.setItem("logi_pricing_rules", JSON.stringify(pricingRules));
+  }, [pricingRules]);
 
   // Toast auto-clear
   useEffect(() => {
@@ -574,6 +587,7 @@ export default function App() {
                 {/* The Input fields component */}
                 <FormCorrida
                   run={run}
+                  pricingRules={pricingRules}
                   onChange={(updated) => setRun(updated)}
                   onClear={handleClearForm}
                 />
@@ -744,6 +758,12 @@ export default function App() {
                   onSelectTemplate={setSelectedTemplateId}
                   onSaveTemplate={handleSaveTemplate}
                   onDeleteTemplate={handleDeleteTemplate}
+                />
+
+                {/* Config Tarifas Panel */}
+                <ConfigTarifas
+                  rules={pricingRules}
+                  onUpdateRules={(newRules) => setPricingRules(newRules)}
                 />
 
               </div>
