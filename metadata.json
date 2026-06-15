@@ -1,0 +1,6 @@
+{
+  "name": "Central de Disparo - Entregas",
+  "description": "Sistema ágil para preenchimento de corridas (retirada, entrega e valor) e disparo automático em grupos de Telegram, Discord e WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
